@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import os
@@ -19,7 +20,7 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 card_cache = {} # card_id -> PhotoImage
                 
 
-def preload_cards():
+def preload_cards(max_retries=300, delay=1):
     """Download and cache all cards at startup."""
     print("Preloading all cards...")
     for card_id in range(1, TOTAL_CARDS + 1):
@@ -31,25 +32,45 @@ def preload_cards():
         else:
             # Download and save to disk
             url = f"https://api.pokemontcg.io/v2/cards/swsh12pt5-{card_id}"
-            try:     
-                response = requests.get(url)
-                if response.status_code == 200:
+
+            success = False
+            for attempt in range(1, max_retries + 1):
+                try:     
+                    response = requests.get(url)
+                    if response.status_code != 200:
+                        print(f"[{attempt}/{max_retries}] Failed to load metadata for card {card_id}")
+                        time.sleep(delay)
+                        continue
+
                     data = response.json()
                     sprite_url = data['data']['images']['large']
-                    img_data = requests.get(sprite_url).content
-                    image = Image.open(BytesIO(img_data))
+
+                    img_response = requests.get(sprite_url)
+                    if img_response.status_code != 200:
+                        print(f"[{attempt}/{max_retries}] Failed to download image for card {card_id}")
+                        time.sleep(delay)
+                        continue
+
+                    image = Image.open(BytesIO(img_response.content))
                     image.save(file_path, "PNG") # Store locally
-                    print(f"Saved card {card_id} to disk")
-                else:
-                    print(f"Failed to load card {card_id}")
-                    continue
-            except Exception as e:
-                print(f"Error loading card {card_id}: {e}")
+                    print(f"Saved card {card_id} to disk (attempt {attempt})")
+                    success = True
+                    break # Exit rety loop if successful
+
+                except Exception as e:
+                    print(f"[{attempt}/{max_retries}] Error loading card {card_id}: {e}")
+                    time.sleep(delay)
+            
+            if not success:
+                print(f"Skipped card {card_id} after {max_retries} failed attempts")
                 continue
+        
+        # Cache thumbnail in memory
         image = image.copy()
         image.thumbnail((218, 300))
         photo = ImageTk.PhotoImage(image)
         card_cache[card_id] = photo
+
     print("All cards preloaded.")
 
 class CardPack:
@@ -85,6 +106,6 @@ class CardPack:
 
 # Start game        
 root = tk.Tk()
-preload_cards() #preload at startup
+preload_cards() # preload at startup
 app = CardPack(root)
 root.mainloop()
