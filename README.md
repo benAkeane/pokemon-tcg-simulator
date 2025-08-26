@@ -1,1 +1,1 @@
-# pokemon-game
+# pokemon-tcg-simulator
