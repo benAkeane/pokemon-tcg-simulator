@@ -1,6 +1,5 @@
 import tkinter as tk
 import time
-from tkinter import messagebox
 from PIL import Image, ImageTk
 import os
 import requests
@@ -14,6 +13,7 @@ NUM_CARDS = 1
 TOTAL_CARDS = 160
 CACHE_DIR = "cards" #folder where images are stored
 POKEMON_TCG_API = os.getenv('POKEMON_TCG_API')
+PACK_IMG_PATH = "cards/swsh12pt5pack.png"
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
@@ -79,18 +79,27 @@ class CardPack:
         self.root.title("Pokemon Pack Simulator")
         self.root.configure(bg="#f2f2f2")
         self.root.geometry("1200x600")
+
+        # Container frame
+        frame = tk.Frame(root, bg="#f2f2f2")
+        frame.pack(expand=True)
+
+        # Display pack image on app start
+        pack_img = Image.open(PACK_IMG_PATH)
+        pack_img.thumbnail((436, 600))
+        self.pack_photo = ImageTk.PhotoImage(pack_img)
+
         self.labels = []
+        label = tk.Label(frame, image=self.pack_photo, bg="#f2f2f2")
+        label.grid(pady=10)
+        self.labels.append(label)
 
-        for i in range(NUM_CARDS):
-            label = tk.Label(root, text="?", font=("Arial", 12), compound="top", bg="#f2f2f2")
-            label.grid(row=0, column=i, padx=10, pady=10)
-            self.labels.append(label)
-
+        # Open pack button
         self.open_button = tk.Button(
-            root, text="Open Pack", font=("Arial", 14),
+            frame, text="Open Pack", font=("Arial", 14),
             command=self.open_pack
         )
-        self.open_button.grid(row=1, column=0, columnspan=5, pady=10, padx=20)
+        self.open_button.grid(pady=20)
 
     def open_pack(self):
         """Select random cards instantly from cache"""
