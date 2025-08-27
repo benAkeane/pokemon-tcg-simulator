@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 
 load_dotenv() # take environment variables from .env
 
-NUM_CARDS = 1
 TOTAL_CARDS = 160
 CARDS_IN_PACK = 5
 CACHE_DIR = "cards" #folder where images are stored
@@ -21,6 +20,7 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 card_cache = {} # card_id -> PhotoImage
                 
 # TODO: preload cards from the crown zenith galarian gallary set "swsh12pt5gg-GG01 - swsh12pt5gg-GG70"
+# TODO: Change code to save cards using the cards unique id as stored in the Pokemon TCG API (instead of 1-x)
 def preload_cards(max_retries=300, delay=1):
     """Download and cache all cards at startup."""
     print("Preloading all cards...")
@@ -107,14 +107,20 @@ class CardPack:
         self.card_labels = []   # Labels for revealed cards
         self.cards_revealed = 0 # Coutner for how many cards have been clicked
 
-    # TODO: Add function that will calculate rarities of cards in the pack
-    #def generate_cards(self):
+    # TODO: Add function that will create a list of 5 random cards in a pack
+    # will do this by calculating the rarities of each card in the pack
+    # sort the list by rarity so that the rarest cards are at the end of the pack
+    def generate_cards(self):
+        card_list = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
 
 
 
+
+    # TODO: Hide Open Pack button, make it so that when the card image is clicked it goes to the next card.
+    # or come up with a different method
     def open_pack(self):
-        """Select random cards instantly from cache"""
-        chosen_card = random.sample(range(1, TOTAL_CARDS + 1), NUM_CARDS)
+        """Select cards instantly from cache"""
+        chosen_card = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
 
         for i, card_id in enumerate(chosen_card):
             photo = card_cache.get(card_id)
