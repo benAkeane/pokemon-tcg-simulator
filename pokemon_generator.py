@@ -11,6 +11,7 @@ load_dotenv() # take environment variables from .env
 
 NUM_CARDS = 1
 TOTAL_CARDS = 160
+CARDS_IN_PACK = 5
 CACHE_DIR = "cards" #folder where images are stored
 POKEMON_TCG_API = os.getenv('POKEMON_TCG_API')
 PACK_IMG_PATH = "cards/swsh12pt5pack.png"
@@ -19,7 +20,7 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 
 card_cache = {} # card_id -> PhotoImage
                 
-
+# TODO: preload cards from the crown zenith galarian gallary set "swsh12pt5gg-GG01 - swsh12pt5gg-GG70"
 def preload_cards(max_retries=300, delay=1):
     """Download and cache all cards at startup."""
     print("Preloading all cards...")
@@ -81,8 +82,8 @@ class CardPack:
         self.root.geometry("1200x600")
 
         # Container frame
-        frame = tk.Frame(root, bg="#f2f2f2")
-        frame.pack(expand=True)
+        self.frame = tk.Frame(root, bg="#f2f2f2")
+        self.frame.pack(expand=True)
 
         # Display pack image on app start
         pack_img = Image.open(PACK_IMG_PATH)
@@ -90,16 +91,26 @@ class CardPack:
         self.pack_photo = ImageTk.PhotoImage(pack_img)
 
         self.labels = []
-        label = tk.Label(frame, image=self.pack_photo, bg="#f2f2f2")
-        label.grid(pady=10)
-        self.labels.append(label)
+        self.pack_label = tk.Label(self.frame, image=self.pack_photo, bg="#f2f2f2")
+        self.pack_label.grid(pady=10)
+        self.labels.append(self.pack_label)
 
         # Open pack button
         self.open_button = tk.Button(
-            frame, text="Open Pack", font=("Arial", 14),
+            self.frame, text="Open Pack", font=("Arial", 14),
             command=self.open_pack
         )
         self.open_button.grid(pady=20)
+
+        # State
+        self.current_cards = [] # Stores 5 chosen card IDs
+        self.card_labels = []   # Labels for revealed cards
+        self.cards_revealed = 0 # Coutner for how many cards have been clicked
+
+    # TODO: Add function that will calculate rarities of cards in the pack
+    #def generate_cards(self):
+
+
 
     def open_pack(self):
         """Select random cards instantly from cache"""
