@@ -24,26 +24,30 @@ card_cache = {} # card_id -> PhotoImage
 def preload_cards(max_retries=300, delay=1):
     """Download and cache all cards at startup."""
     print("Preloading all cards...")
+
     for card_id in range(1, TOTAL_CARDS + 1):
-        file_path = os.path.join(CACHE_DIR, f"{card_id}.png")
+        url1 = f"https://api.pokemontcg.io/v2/cards/swsh12pt5-{card_id}"
+        #utl2 = f"https://api.pokemontcg.io/v2/cards/swsh12pt5gg-GG{card_id}" # cards 1-9 need a 0 appended before their card_id
+
+        response = requests.get(url1)
+        data = response.json()
+        
+        file_path = os.path.join(CACHE_DIR, f"{data['data']['id']}.png")
 
         if os.path.exists(file_path):
             # Load from disk
             image = Image.open(file_path)
         else:
             # Download and save to disk
-            url = f"https://api.pokemontcg.io/v2/cards/swsh12pt5-{card_id}"
-
             success = False
             for attempt in range(1, max_retries + 1):
                 try:     
-                    response = requests.get(url)
+                    response = requests.get(url1)
                     if response.status_code != 200:
                         print(f"[{attempt}/{max_retries}] Failed to load metadata for card {card_id}")
                         time.sleep(delay)
                         continue
 
-                    data = response.json()
                     sprite_url = data['data']['images']['large']
 
                     img_response = requests.get(sprite_url)
