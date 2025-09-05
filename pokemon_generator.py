@@ -3,80 +3,115 @@ import time
 from PIL import Image, ImageTk
 import os
 import requests
+import concurrent.futures
 import random
+import json
 from io import BytesIO
 from dotenv import load_dotenv
 
 load_dotenv() # take environment variables from .env
 
-TOTAL_CARDS = 160
+TOTAL_CARDS = 230
 CARDS_IN_PACK = 5
-CACHE_DIR = "cards" #folder where images are stored
-POKEMON_TCG_API = os.getenv('POKEMON_TCG_API')
-PACK_IMG_PATH = "cards/swsh12pt5pack.png"
+SET_LIST = ["swsh12pt5", "swsh12pt5gg"]
+CACHE_DIR = "card_images" #folder where card images are stored
+POKEMON_TCG_API_KEY = os.getenv('POKEMON_TCG_API')
+PACK_IMG_PATH = "card_images/swsh12pt5pack.png"
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 card_cache = {} # card_id -> PhotoImage
+images_preloaded = True
+
+
+def fetch_metadata(set_id):
+    """Fetch all card metadata for a set"""
+    url = f"https://api.pokemontcg.io/v2/cards?q=set.id:{set_id}&pageSize=250"
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    return response.json()["data"]
                 
-# TODO: preload cards from the crown zenith galarian gallary set "swsh12pt5gg-GG01 - swsh12pt5gg-GG70"
-# TODO: Change code to save cards using the cards unique id as stored in the Pokemon TCG API (instead of 1-x)
-def preload_cards(max_retries=300, delay=1):
+def download_image(card):
+    card_id = card["id"]
+    file_path = os.path.join(CACHE_DIR, f"{card_id}.png")
+
+    if os.path.exists(file_path):
+        return file_path
+    
+    try:
+        img_url = card["images"]["large"]
+        img_response = requests.get(img_url, timeout=10, stream=True)
+        img_response.raise_for_status()
+
+        image = Image.open(BytesIO(img_response.content))
+        image.save(file_path, "PNG")
+        print(f"Saved {card_id}")
+    except Exception as e:
+        print(f"Failed {card_id}: {e}")
+        return None
+
+def preload_images():
     """Download and cache all cards at startup."""
-    print("Preloading all cards...")
+    print("Fetching metadata...")
 
-    for card_id in range(1, TOTAL_CARDS + 1):
-        url1 = f"https://api.pokemontcg.io/v2/cards/swsh12pt5-{card_id}"
-        #utl2 = f"https://api.pokemontcg.io/v2/cards/swsh12pt5gg-GG{card_id}" # cards 1-9 need a 0 appended before their card_id
-        # if card_id % 10 == 0 append "0" + card_id
-        response = requests.get(url1)
-        data = response.json()
+    sets = ["swsh12pt5", "swsh12pt5gg"]
+    all_cards = []
+    for set_id in sets:
+        all_cards.extend(fetch_metadata(set_id))
+    
+    print(f"Downloading {len(all_cards)} images...")
 
-        file_path = os.path.join(CACHE_DIR, f"{data['data']['id']}.png")
-
-        if os.path.exists(file_path):
-            # Load from disk
-            image = Image.open(file_path)
-        else:
-            # Download and save to disk
-            success = False
-            for attempt in range(1, max_retries + 1):
-                try:     
-                    response = requests.get(url1)
-                    if response.status_code != 200:
-                        print(f"[{attempt}/{max_retries}] Failed to load metadata for card {card_id}")
-                        time.sleep(delay)
-                        continue
-
-                    sprite_url = data['data']['images']['large']
-
-                    img_response = requests.get(sprite_url)
-                    if img_response.status_code != 200:
-                        print(f"[{attempt}/{max_retries}] Failed to download image for card {card_id}")
-                        time.sleep(delay)
-                        continue
-
-                    image = Image.open(BytesIO(img_response.content))
-                    image.save(file_path, "PNG") # Store locally
-                    print(f"Saved card {card_id} to disk (attempt {attempt})")
-                    success = True
-                    break # Exit rety loop if successful
-
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        for file_path in executor.map(download_image, all_cards):
+            if file_path:
+                try:
+                    image = Image.open(file_path)
+                    image.thumbnail((218, 300))
+                    photo = ImageTk.PhotoImage(image)
+                    card_cache[file_path] = photo
                 except Exception as e:
-                    print(f"[{attempt}/{max_retries}] Error loading card {card_id}: {e}")
-                    time.sleep(delay)
-            
-            if not success:
-                print(f"Skipped card {card_id} after {max_retries} failed attempts")
-                continue
-        
-        # Cache thumbnail in memory
-        image = image.copy()
-        image.thumbnail((218, 300))
-        photo = ImageTk.PhotoImage(image)
-        card_cache[card_id] = photo
-
+                    print(f"Error caching {file_path}: {e}")
+    
     print("All cards preloaded.")
+
+# Currently only saves one set of cards (ex. Only swsh12pt5 NOT both)
+# TODO: make it so that both sets can be stored in the same cache
+def preload_card_data(set_id):
+    print("Loading cards...")
+    url = f"https://api.pokemontcg.io/v2/cards?q=set.id:{set_id}&pageSize=250"
+    response = requests.get(url)
+    response.raise_for_status()
+    data = response.json()
+
+    all_cards = {}
+    rarity_pools = {}
+
+    for card in data["data"]:
+        card_id = card["id"]
+        rarity = card.get("rarity", "Common") # fallback
+
+        all_cards[card_id] = {
+            "id": card_id,
+            "name": card["name"],
+            "rarity": rarity
+        }
+
+        rarity_pools.setdefault(rarity, []).append(card_id)
+    
+    return all_cards, rarity_pools
+
+def save_cache(all_cards, rarity_pools, filename="cards_cache.json"):
+    with open(filename, "w") as f:
+        json.dump({"all_cards": all_cards, "rarity_pools": rarity_pools}, f)
+
+def load_cache(filename="cards_cache.json"):
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            data = json.load(f)
+        return data["all_cards"], data["rarity_pools"]
+    return None, None
+
+
 
 class CardPack:
     def __init__(self, root):
@@ -116,6 +151,7 @@ class CardPack:
     # sort the list by rarity so that the rarest cards are at the end of the pack
     def generate_cards(self):
         card_list = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
+        self.current_cards = card_list
 
 
 
@@ -136,6 +172,15 @@ class CardPack:
 
 # Start game        
 root = tk.Tk()
-preload_cards() # preload at startup
+all_cards, rarity_pools = preload_card_data("swsh12pt5gg")
+save_cache(all_cards, rarity_pools)
+
+ #all_cards, rarity_pools = load_cache()
+# if not all_cards:
+#     for set in SET_LIST:
+#         all_cards, rarity_pools = preload_card_data(set)
+#         save_cache(all_cards, rarity_pools)
+if not images_preloaded:
+    preload_images() # preload at startup
 app = CardPack(root)
 root.mainloop()
