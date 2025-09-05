@@ -30,7 +30,8 @@ def fetch_metadata(set_id):
     response = requests.get(url, timeout=10)
     response.raise_for_status()
     return response.json()["data"]
-                
+
+  
 def download_image(card):
     card_id = card["id"]
     file_path = os.path.join(CACHE_DIR, f"{card_id}.png")
@@ -49,6 +50,7 @@ def download_image(card):
     except Exception as e:
         print(f"Failed {card_id}: {e}")
         return None
+
 
 def preload_images():
     """Download and cache all cards at startup."""
@@ -73,6 +75,7 @@ def preload_images():
                     print(f"Error caching {file_path}: {e}")
     
     print("All cards preloaded.")
+
 
 # Currently only saves one set of cards (ex. Only swsh12pt5 NOT both)
 # TODO: make it so that both sets can be stored in the same cache
@@ -100,6 +103,7 @@ def preload_card_data(set_id):
         rarity_pools.setdefault(rarity, []).append(card_id)
     
     return all_cards, rarity_pools
+
 
 def save_cache(set_id, all_cards, rarity_pools, filename="cards_cache.json"):
     cache = {}
