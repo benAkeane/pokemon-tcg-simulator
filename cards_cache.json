@@ -1,0 +1,972 @@
+{
+  "all_cards": {
+    "swsh12pt5-1": {
+      "id": "swsh12pt5-1",
+      "name": "Oddish",
+      "rarity": "Common"
+    },
+    "swsh12pt5-2": {
+      "id": "swsh12pt5-2",
+      "name": "Gloom",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-3": {
+      "id": "swsh12pt5-3",
+      "name": "Bellossom",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-4": {
+      "id": "swsh12pt5-4",
+      "name": "Tangela",
+      "rarity": "Common"
+    },
+    "swsh12pt5-5": {
+      "id": "swsh12pt5-5",
+      "name": "Tangrowth",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-6": {
+      "id": "swsh12pt5-6",
+      "name": "Scyther",
+      "rarity": "Common"
+    },
+    "swsh12pt5-7": {
+      "id": "swsh12pt5-7",
+      "name": "Sunkern",
+      "rarity": "Common"
+    },
+    "swsh12pt5-8": { "id": "swsh12pt5-8", "name": "Yanma", "rarity": "Common" },
+    "swsh12pt5-9": { "id": "swsh12pt5-9", "name": "Yanmega", "rarity": "Rare" },
+    "swsh12pt5-10": {
+      "id": "swsh12pt5-10",
+      "name": "Kricketot",
+      "rarity": "Common"
+    },
+    "swsh12pt5-11": {
+      "id": "swsh12pt5-11",
+      "name": "Cherubi",
+      "rarity": "Common"
+    },
+    "swsh12pt5-12": {
+      "id": "swsh12pt5-12",
+      "name": "Carnivine",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-13": {
+      "id": "swsh12pt5-13",
+      "name": "Leafeon V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-14": {
+      "id": "swsh12pt5-14",
+      "name": "Leafeon VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-15": {
+      "id": "swsh12pt5-15",
+      "name": "Grubbin",
+      "rarity": "Common"
+    },
+    "swsh12pt5-16": {
+      "id": "swsh12pt5-16",
+      "name": "Zarude",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-17": {
+      "id": "swsh12pt5-17",
+      "name": "Calyrex",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-18": {
+      "id": "swsh12pt5-18",
+      "name": "Charizard V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-19": {
+      "id": "swsh12pt5-19",
+      "name": "Charizard VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-20": {
+      "id": "swsh12pt5-20",
+      "name": "Radiant Charizard",
+      "rarity": "Radiant Rare"
+    },
+    "swsh12pt5-21": {
+      "id": "swsh12pt5-21",
+      "name": "Entei",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-22": {
+      "id": "swsh12pt5-22",
+      "name": "Simisear V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-23": {
+      "id": "swsh12pt5-23",
+      "name": "Simisear VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-24": {
+      "id": "swsh12pt5-24",
+      "name": "Larvesta",
+      "rarity": "Common"
+    },
+    "swsh12pt5-25": {
+      "id": "swsh12pt5-25",
+      "name": "Volcarona",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-26": {
+      "id": "swsh12pt5-26",
+      "name": "Volcanion",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-27": {
+      "id": "swsh12pt5-27",
+      "name": "Salandit",
+      "rarity": "Common"
+    },
+    "swsh12pt5-28": {
+      "id": "swsh12pt5-28",
+      "name": "Salazzle",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-29": {
+      "id": "swsh12pt5-29",
+      "name": "Seel",
+      "rarity": "Common"
+    },
+    "swsh12pt5-30": {
+      "id": "swsh12pt5-30",
+      "name": "Galarian Mr. Mime",
+      "rarity": "Common"
+    },
+    "swsh12pt5-31": {
+      "id": "swsh12pt5-31",
+      "name": "Wailmer",
+      "rarity": "Common"
+    },
+    "swsh12pt5-32": {
+      "id": "swsh12pt5-32",
+      "name": "Wailord",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-33": {
+      "id": "swsh12pt5-33",
+      "name": "Corphish",
+      "rarity": "Common"
+    },
+    "swsh12pt5-34": {
+      "id": "swsh12pt5-34",
+      "name": "Snorunt",
+      "rarity": "Common"
+    },
+    "swsh12pt5-35": {
+      "id": "swsh12pt5-35",
+      "name": "Luvdisc",
+      "rarity": "Common"
+    },
+    "swsh12pt5-36": {
+      "id": "swsh12pt5-36",
+      "name": "Kyogre",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-37": {
+      "id": "swsh12pt5-37",
+      "name": "Kyogre V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-38": {
+      "id": "swsh12pt5-38",
+      "name": "Glaceon V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-39": {
+      "id": "swsh12pt5-39",
+      "name": "Shinx",
+      "rarity": "Common"
+    },
+    "swsh12pt5-40": {
+      "id": "swsh12pt5-40",
+      "name": "Shinx",
+      "rarity": "Common"
+    },
+    "swsh12pt5-41": {
+      "id": "swsh12pt5-41",
+      "name": "Luxio",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-42": {
+      "id": "swsh12pt5-42",
+      "name": "Luxio",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-43": {
+      "id": "swsh12pt5-43",
+      "name": "Luxray",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-44": {
+      "id": "swsh12pt5-44",
+      "name": "Luxray",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-45": {
+      "id": "swsh12pt5-45",
+      "name": "Rotom V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-46": {
+      "id": "swsh12pt5-46",
+      "name": "Rotom VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-47": {
+      "id": "swsh12pt5-47",
+      "name": "Emolga",
+      "rarity": "Common"
+    },
+    "swsh12pt5-48": {
+      "id": "swsh12pt5-48",
+      "name": "Eelektrik",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-49": {
+      "id": "swsh12pt5-49",
+      "name": "Helioptile",
+      "rarity": "Common"
+    },
+    "swsh12pt5-50": {
+      "id": "swsh12pt5-50",
+      "name": "Heliolisk",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-51": {
+      "id": "swsh12pt5-51",
+      "name": "Radiant Charjabug",
+      "rarity": "Radiant Rare"
+    },
+    "swsh12pt5-52": {
+      "id": "swsh12pt5-52",
+      "name": "Zeraora",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-53": {
+      "id": "swsh12pt5-53",
+      "name": "Zeraora V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-54": {
+      "id": "swsh12pt5-54",
+      "name": "Zeraora VMAX",
+      "rarity": "Rare Holo VMAX"
+    },
+    "swsh12pt5-55": {
+      "id": "swsh12pt5-55",
+      "name": "Zeraora VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-56": {
+      "id": "swsh12pt5-56",
+      "name": "Pincurchin",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-57": {
+      "id": "swsh12pt5-57",
+      "name": "Exeggcute",
+      "rarity": "Common"
+    },
+    "swsh12pt5-58": {
+      "id": "swsh12pt5-58",
+      "name": "Exeggutor",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-59": {
+      "id": "swsh12pt5-59",
+      "name": "Mewtwo",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-60": {
+      "id": "swsh12pt5-60",
+      "name": "Mew V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-61": {
+      "id": "swsh12pt5-61",
+      "name": "Girafarig",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-62": {
+      "id": "swsh12pt5-62",
+      "name": "Lunatone",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-63": {
+      "id": "swsh12pt5-63",
+      "name": "Dusclops",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-64": {
+      "id": "swsh12pt5-64",
+      "name": "Tapu Lele",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-65": {
+      "id": "swsh12pt5-65",
+      "name": "Hatterene V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-66": {
+      "id": "swsh12pt5-66",
+      "name": "Hatterene VMAX",
+      "rarity": "Rare Holo VMAX"
+    },
+    "swsh12pt5-67": {
+      "id": "swsh12pt5-67",
+      "name": "Enamorus",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-68": {
+      "id": "swsh12pt5-68",
+      "name": "Graveler",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-69": {
+      "id": "swsh12pt5-69",
+      "name": "Solrock",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-70": {
+      "id": "swsh12pt5-70",
+      "name": "Baltoy",
+      "rarity": "Common"
+    },
+    "swsh12pt5-71": {
+      "id": "swsh12pt5-71",
+      "name": "Riolu",
+      "rarity": "Common"
+    },
+    "swsh12pt5-72": {
+      "id": "swsh12pt5-72",
+      "name": "Pancham",
+      "rarity": "Common"
+    },
+    "swsh12pt5-73": {
+      "id": "swsh12pt5-73",
+      "name": "Rockruff",
+      "rarity": "Common"
+    },
+    "swsh12pt5-74": {
+      "id": "swsh12pt5-74",
+      "name": "Lycanroc",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-75": {
+      "id": "swsh12pt5-75",
+      "name": "Koffing",
+      "rarity": "Common"
+    },
+    "swsh12pt5-76": {
+      "id": "swsh12pt5-76",
+      "name": "Absol",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-77": {
+      "id": "swsh12pt5-77",
+      "name": "Purrloin",
+      "rarity": "Common"
+    },
+    "swsh12pt5-78": {
+      "id": "swsh12pt5-78",
+      "name": "Liepard",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-79": {
+      "id": "swsh12pt5-79",
+      "name": "Krokorok",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-80": {
+      "id": "swsh12pt5-80",
+      "name": "Pangoro",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-81": {
+      "id": "swsh12pt5-81",
+      "name": "Skrelp",
+      "rarity": "Common"
+    },
+    "swsh12pt5-82": {
+      "id": "swsh12pt5-82",
+      "name": "Dragalge",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-83": {
+      "id": "swsh12pt5-83",
+      "name": "Hoopa",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-84": {
+      "id": "swsh12pt5-84",
+      "name": "Galarian Meowth",
+      "rarity": "Common"
+    },
+    "swsh12pt5-85": {
+      "id": "swsh12pt5-85",
+      "name": "Galarian Perrserker",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-86": {
+      "id": "swsh12pt5-86",
+      "name": "Scizor",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-87": {
+      "id": "swsh12pt5-87",
+      "name": "Aron",
+      "rarity": "Common"
+    },
+    "swsh12pt5-88": {
+      "id": "swsh12pt5-88",
+      "name": "Lairon",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-89": {
+      "id": "swsh12pt5-89",
+      "name": "Aggron",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-90": {
+      "id": "swsh12pt5-90",
+      "name": "Metang",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-91": {
+      "id": "swsh12pt5-91",
+      "name": "Pawniard",
+      "rarity": "Common"
+    },
+    "swsh12pt5-92": {
+      "id": "swsh12pt5-92",
+      "name": "Pawniard",
+      "rarity": "Common"
+    },
+    "swsh12pt5-93": {
+      "id": "swsh12pt5-93",
+      "name": "Bisharp",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-94": {
+      "id": "swsh12pt5-94",
+      "name": "Zacian",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-95": {
+      "id": "swsh12pt5-95",
+      "name": "Zacian V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-96": {
+      "id": "swsh12pt5-96",
+      "name": "Zacian VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-97": {
+      "id": "swsh12pt5-97",
+      "name": "Zamazenta",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-98": {
+      "id": "swsh12pt5-98",
+      "name": "Zamazenta V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-99": {
+      "id": "swsh12pt5-99",
+      "name": "Zamazenta VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-100": {
+      "id": "swsh12pt5-100",
+      "name": "Rayquaza V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-101": {
+      "id": "swsh12pt5-101",
+      "name": "Rayquaza VMAX",
+      "rarity": "Rare Holo VMAX"
+    },
+    "swsh12pt5-102": {
+      "id": "swsh12pt5-102",
+      "name": "Rayquaza VMAX",
+      "rarity": "Rare Holo VMAX"
+    },
+    "swsh12pt5-103": {
+      "id": "swsh12pt5-103",
+      "name": "Duraludon V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-104": {
+      "id": "swsh12pt5-104",
+      "name": "Duraludon VMAX",
+      "rarity": "Rare Holo VMAX"
+    },
+    "swsh12pt5-105": {
+      "id": "swsh12pt5-105",
+      "name": "Radiant Eternatus",
+      "rarity": "Radiant Rare"
+    },
+    "swsh12pt5-106": {
+      "id": "swsh12pt5-106",
+      "name": "Tauros",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-107": {
+      "id": "swsh12pt5-107",
+      "name": "Ditto",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-108": {
+      "id": "swsh12pt5-108",
+      "name": "Eevee V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-109": {
+      "id": "swsh12pt5-109",
+      "name": "Snorlax",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-110": {
+      "id": "swsh12pt5-110",
+      "name": "Starly",
+      "rarity": "Common"
+    },
+    "swsh12pt5-111": {
+      "id": "swsh12pt5-111",
+      "name": "Bidoof",
+      "rarity": "Common"
+    },
+    "swsh12pt5-112": {
+      "id": "swsh12pt5-112",
+      "name": "Chatot",
+      "rarity": "Common"
+    },
+    "swsh12pt5-113": {
+      "id": "swsh12pt5-113",
+      "name": "Regigigas V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-114": {
+      "id": "swsh12pt5-114",
+      "name": "Regigigas VSTAR",
+      "rarity": "Rare Holo VSTAR"
+    },
+    "swsh12pt5-115": {
+      "id": "swsh12pt5-115",
+      "name": "Shaymin",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-116": {
+      "id": "swsh12pt5-116",
+      "name": "Stoutland V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-117": {
+      "id": "swsh12pt5-117",
+      "name": "Yungoos",
+      "rarity": "Common"
+    },
+    "swsh12pt5-118": {
+      "id": "swsh12pt5-118",
+      "name": "Gumshoos",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-119": {
+      "id": "swsh12pt5-119",
+      "name": "Oranguru",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-120": {
+      "id": "swsh12pt5-120",
+      "name": "Greedent V",
+      "rarity": "Rare Holo V"
+    },
+    "swsh12pt5-121": {
+      "id": "swsh12pt5-121",
+      "name": "Wooloo",
+      "rarity": "Common"
+    },
+    "swsh12pt5-122": {
+      "id": "swsh12pt5-122",
+      "name": "Dubwool",
+      "rarity": "Rare"
+    },
+    "swsh12pt5-123": {
+      "id": "swsh12pt5-123",
+      "name": "Bea",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-124": {
+      "id": "swsh12pt5-124",
+      "name": "Bede",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-125": {
+      "id": "swsh12pt5-125",
+      "name": "Crushing Hammer",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-126": {
+      "id": "swsh12pt5-126",
+      "name": "Digging Duo",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-127": {
+      "id": "swsh12pt5-127",
+      "name": "Energy Retrieval",
+      "rarity": "Common"
+    },
+    "swsh12pt5-128": {
+      "id": "swsh12pt5-128",
+      "name": "Energy Search",
+      "rarity": "Common"
+    },
+    "swsh12pt5-129": {
+      "id": "swsh12pt5-129",
+      "name": "Energy Switch",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-130": {
+      "id": "swsh12pt5-130",
+      "name": "Friends in Hisui",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-131": {
+      "id": "swsh12pt5-131",
+      "name": "Friends in Sinnoh",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-132": {
+      "id": "swsh12pt5-132",
+      "name": "Great Ball",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-133": {
+      "id": "swsh12pt5-133",
+      "name": "Hop",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-134": {
+      "id": "swsh12pt5-134",
+      "name": "Leon",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-135": {
+      "id": "swsh12pt5-135",
+      "name": "Lost Vacuum",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-136": {
+      "id": "swsh12pt5-136",
+      "name": "Nessa",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-137": {
+      "id": "swsh12pt5-137",
+      "name": "Pok\u00e9 Ball",
+      "rarity": "Common"
+    },
+    "swsh12pt5-138": {
+      "id": "swsh12pt5-138",
+      "name": "Pok\u00e9mon Catcher",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-139": {
+      "id": "swsh12pt5-139",
+      "name": "Potion",
+      "rarity": "Common"
+    },
+    "swsh12pt5-140": {
+      "id": "swsh12pt5-140",
+      "name": "Raihan",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-141": {
+      "id": "swsh12pt5-141",
+      "name": "Rare Candy",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-142": {
+      "id": "swsh12pt5-142",
+      "name": "Rescue Carrier",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-143": {
+      "id": "swsh12pt5-143",
+      "name": "Sky Seal Stone",
+      "rarity": "Rare Holo"
+    },
+    "swsh12pt5-144": {
+      "id": "swsh12pt5-144",
+      "name": "Switch",
+      "rarity": "Common"
+    },
+    "swsh12pt5-145": {
+      "id": "swsh12pt5-145",
+      "name": "Trekking Shoes",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-146": {
+      "id": "swsh12pt5-146",
+      "name": "Ultra Ball",
+      "rarity": "Uncommon"
+    },
+    "swsh12pt5-147": {
+      "id": "swsh12pt5-147",
+      "name": "Elesa's Sparkle",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-148": {
+      "id": "swsh12pt5-148",
+      "name": "Friends in Hisui",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-149": {
+      "id": "swsh12pt5-149",
+      "name": "Friends in Sinnoh",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-150": {
+      "id": "swsh12pt5-150",
+      "name": "Professor's Research",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-151": {
+      "id": "swsh12pt5-151",
+      "name": "Volo",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-152": {
+      "id": "swsh12pt5-152",
+      "name": "Grass Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-153": {
+      "id": "swsh12pt5-153",
+      "name": "Fire Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-154": {
+      "id": "swsh12pt5-154",
+      "name": "Water Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-155": {
+      "id": "swsh12pt5-155",
+      "name": "Lightning Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-156": {
+      "id": "swsh12pt5-156",
+      "name": "Psychic Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-157": {
+      "id": "swsh12pt5-157",
+      "name": "Fighting Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-158": {
+      "id": "swsh12pt5-158",
+      "name": "Darkness Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-159": {
+      "id": "swsh12pt5-159",
+      "name": "Metal Energy",
+      "rarity": "Rare Ultra"
+    },
+    "swsh12pt5-160": {
+      "id": "swsh12pt5-160",
+      "name": "Pikachu",
+      "rarity": "Rare Secret"
+    }
+  },
+  "rarity_pools": {
+    "Common": [
+      "swsh12pt5-1",
+      "swsh12pt5-4",
+      "swsh12pt5-6",
+      "swsh12pt5-7",
+      "swsh12pt5-8",
+      "swsh12pt5-10",
+      "swsh12pt5-11",
+      "swsh12pt5-15",
+      "swsh12pt5-24",
+      "swsh12pt5-27",
+      "swsh12pt5-29",
+      "swsh12pt5-30",
+      "swsh12pt5-31",
+      "swsh12pt5-33",
+      "swsh12pt5-34",
+      "swsh12pt5-35",
+      "swsh12pt5-39",
+      "swsh12pt5-40",
+      "swsh12pt5-47",
+      "swsh12pt5-49",
+      "swsh12pt5-57",
+      "swsh12pt5-70",
+      "swsh12pt5-71",
+      "swsh12pt5-72",
+      "swsh12pt5-73",
+      "swsh12pt5-75",
+      "swsh12pt5-77",
+      "swsh12pt5-81",
+      "swsh12pt5-84",
+      "swsh12pt5-87",
+      "swsh12pt5-91",
+      "swsh12pt5-92",
+      "swsh12pt5-110",
+      "swsh12pt5-111",
+      "swsh12pt5-112",
+      "swsh12pt5-117",
+      "swsh12pt5-121",
+      "swsh12pt5-127",
+      "swsh12pt5-128",
+      "swsh12pt5-137",
+      "swsh12pt5-139",
+      "swsh12pt5-144"
+    ],
+    "Uncommon": [
+      "swsh12pt5-2",
+      "swsh12pt5-12",
+      "swsh12pt5-28",
+      "swsh12pt5-41",
+      "swsh12pt5-42",
+      "swsh12pt5-48",
+      "swsh12pt5-56",
+      "swsh12pt5-61",
+      "swsh12pt5-62",
+      "swsh12pt5-63",
+      "swsh12pt5-68",
+      "swsh12pt5-69",
+      "swsh12pt5-79",
+      "swsh12pt5-88",
+      "swsh12pt5-90",
+      "swsh12pt5-93",
+      "swsh12pt5-115",
+      "swsh12pt5-125",
+      "swsh12pt5-126",
+      "swsh12pt5-129",
+      "swsh12pt5-130",
+      "swsh12pt5-131",
+      "swsh12pt5-132",
+      "swsh12pt5-135",
+      "swsh12pt5-138",
+      "swsh12pt5-141",
+      "swsh12pt5-142",
+      "swsh12pt5-145",
+      "swsh12pt5-146"
+    ],
+    "Rare": [
+      "swsh12pt5-3",
+      "swsh12pt5-5",
+      "swsh12pt5-9",
+      "swsh12pt5-25",
+      "swsh12pt5-32",
+      "swsh12pt5-43",
+      "swsh12pt5-44",
+      "swsh12pt5-50",
+      "swsh12pt5-52",
+      "swsh12pt5-58",
+      "swsh12pt5-67",
+      "swsh12pt5-74",
+      "swsh12pt5-78",
+      "swsh12pt5-80",
+      "swsh12pt5-82",
+      "swsh12pt5-85",
+      "swsh12pt5-86",
+      "swsh12pt5-106",
+      "swsh12pt5-109",
+      "swsh12pt5-118",
+      "swsh12pt5-119",
+      "swsh12pt5-122"
+    ],
+    "Rare Holo V": [
+      "swsh12pt5-13",
+      "swsh12pt5-18",
+      "swsh12pt5-22",
+      "swsh12pt5-37",
+      "swsh12pt5-38",
+      "swsh12pt5-45",
+      "swsh12pt5-53",
+      "swsh12pt5-60",
+      "swsh12pt5-65",
+      "swsh12pt5-95",
+      "swsh12pt5-98",
+      "swsh12pt5-100",
+      "swsh12pt5-103",
+      "swsh12pt5-108",
+      "swsh12pt5-113",
+      "swsh12pt5-116",
+      "swsh12pt5-120"
+    ],
+    "Rare Holo VSTAR": [
+      "swsh12pt5-14",
+      "swsh12pt5-19",
+      "swsh12pt5-23",
+      "swsh12pt5-46",
+      "swsh12pt5-55",
+      "swsh12pt5-96",
+      "swsh12pt5-99",
+      "swsh12pt5-114"
+    ],
+    "Rare Holo": [
+      "swsh12pt5-16",
+      "swsh12pt5-17",
+      "swsh12pt5-21",
+      "swsh12pt5-26",
+      "swsh12pt5-36",
+      "swsh12pt5-59",
+      "swsh12pt5-64",
+      "swsh12pt5-76",
+      "swsh12pt5-83",
+      "swsh12pt5-89",
+      "swsh12pt5-94",
+      "swsh12pt5-97",
+      "swsh12pt5-107",
+      "swsh12pt5-123",
+      "swsh12pt5-124",
+      "swsh12pt5-133",
+      "swsh12pt5-134",
+      "swsh12pt5-136",
+      "swsh12pt5-140",
+      "swsh12pt5-143"
+    ],
+    "Radiant Rare": ["swsh12pt5-20", "swsh12pt5-51", "swsh12pt5-105"],
+    "Rare Holo VMAX": [
+      "swsh12pt5-54",
+      "swsh12pt5-66",
+      "swsh12pt5-101",
+      "swsh12pt5-102",
+      "swsh12pt5-104"
+    ],
+    "Rare Ultra": [
+      "swsh12pt5-147",
+      "swsh12pt5-148",
+      "swsh12pt5-149",
+      "swsh12pt5-150",
+      "swsh12pt5-151",
+      "swsh12pt5-152",
+      "swsh12pt5-153",
+      "swsh12pt5-154",
+      "swsh12pt5-155",
+      "swsh12pt5-156",
+      "swsh12pt5-157",
+      "swsh12pt5-158",
+      "swsh12pt5-159"
+    ],
+    "Rare Secret": ["swsh12pt5-160"]
+  }
+}

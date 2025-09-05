@@ -6,6 +6,7 @@ import requests
 import concurrent.futures
 import random
 import json
+#from collections import defaultdict
 from io import BytesIO
 from dotenv import load_dotenv
 
@@ -15,13 +16,17 @@ SET1_CARDS = 160
 SET1_EXT_CARDS = 70
 TOTAL_CARDS = 230
 CARDS_IN_PACK = 5
+SET_LIST = ["swsh12pt5", "swsh12pt5gg"]
 CACHE_DIR = "cards" #folder where images are stored
 POKEMON_TCG_API = os.getenv('POKEMON_TCG_API')
 PACK_IMG_PATH = "cards/swsh12pt5pack.png"
 
+
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 card_cache = {} # card_id -> PhotoImage
+images_preloaded = True
+
 
 def fetch_metadata(set_id):
     """Fetch all card metadata for a set"""
@@ -49,7 +54,7 @@ def download_image(card):
         print(f"Failed {card_id}: {e}")
         return None
 
-def preload_cards(max_retries=300, delay=1):
+def preload_images():
     """Download and cache all cards at startup."""
     print("Fetching metadata...")
 
@@ -72,6 +77,43 @@ def preload_cards(max_retries=300, delay=1):
                     print(f"Error caching {file_path}: {e}")
     
     print("All cards preloaded.")
+
+def preload_card_data(set_id):
+    print("Loading cards...")
+    url = f"https://api.pokemontcg.io/v2/cards?q=set.id:{set_id}&pageSize=250"
+    response = requests.get(url)
+    response.raise_for_status()
+    data = response.json()
+
+    all_cards = {}
+    rarity_pools = {}
+
+    for card in data["data"]:
+        card_id = card["id"]
+        rarity = card.get("rarity", "Common") # fallback
+
+        all_cards[card_id] = {
+            "id": card_id,
+            "name": card["name"],
+            "rarity": rarity
+        }
+
+        rarity_pools.setdefault(rarity, []).append(card_id)
+    
+    return all_cards, rarity_pools
+
+def save_cache(all_cards, rarity_pools, filename="cards_cache.json"):
+    with open(filename, "w") as f:
+        json.dump({"all_cards": all_cards, "rarity_pools": rarity_pools}, f)
+
+def load_cache(filename="cards_cache.json"):
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            data = json.load(f)
+        return data["all_cards"], data["rarity_pools"]
+    return None, None
+
+
 
 class CardPack:
     def __init__(self, root):
@@ -111,6 +153,7 @@ class CardPack:
     # sort the list by rarity so that the rarest cards are at the end of the pack
     def generate_cards(self):
         card_list = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
+        self.current_cards = card_list
 
 
 
@@ -131,6 +174,12 @@ class CardPack:
 
 # Start game        
 root = tk.Tk()
-preload_cards() # preload at startup
+all_cards, rarity_pools = load_cache()
+if not all_cards:
+    for set in SET_LIST:
+        all_cards, rarity_pools = preload_card_data(set)
+        save_cache(all_cards, rarity_pools)
+if not images_preloaded:
+    preload_images() # preload at startup
 app = CardPack(root)
 root.mainloop()
