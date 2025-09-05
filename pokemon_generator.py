@@ -3,7 +3,9 @@ import time
 from PIL import Image, ImageTk
 import os
 import requests
+import concurrent.futures
 import random
+import json
 from io import BytesIO
 from dotenv import load_dotenv
 
@@ -11,6 +13,7 @@ load_dotenv() # take environment variables from .env
 
 SET1_CARDS = 160
 SET1_EXT_CARDS = 70
+TOTAL_CARDS = 230
 CARDS_IN_PACK = 5
 CACHE_DIR = "cards" #folder where images are stored
 POKEMON_TCG_API = os.getenv('POKEMON_TCG_API')
@@ -19,119 +22,55 @@ PACK_IMG_PATH = "cards/swsh12pt5pack.png"
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 card_cache = {} # card_id -> PhotoImage
+
+def fetch_metadata(set_id):
+    """Fetch all card metadata for a set"""
+    url = f"https://api.pokemontcg.io/v2/cards?q=set.id:{set_id}&pageSize=250"
+    response = requests.get(url, timeout=10)
+    response.raise_for_status()
+    return response.json()["data"]
                 
-# TODO: preload cards from the crown zenith galarian gallary set "swsh12pt5gg-GG01 - swsh12pt5gg-GG70"
+def download_image(card):
+    card_id = card["id"]
+    file_path = os.path.join(CACHE_DIR, f"{card_id}.png")
+
+    if os.path.exists(file_path):
+        return file_path
+    
+    try:
+        img_url = card["images"]["large"]
+        img_response = requests.get(img_url, timeout=10, stream=True)
+        img_response.raise_for_status()
+
+        image = Image.open(BytesIO(img_response.content))
+        image.save(file_path, "PNG")
+        print(f"Saved {card_id}")
+    except Exception as e:
+        print(f"Failed {card_id}: {e}")
+        return None
+
 def preload_cards(max_retries=300, delay=1):
     """Download and cache all cards at startup."""
-    print("Preloading all cards...")
+    print("Fetching metadata...")
 
-    # Preload all cards in SET1_CARDS (swsh12pt5)
-    for card_id in range(1, SET1_CARDS + 1):
-        url = f"https://api.pokemontcg.io/v2/cards/swsh12pt5-{card_id}"
-        response = requests.get(url)
-        print(response.text[:500])
-        data = response.json()
-        
-        file_path = os.path.join(CACHE_DIR, f"{data['data']['id']}.png")
+    sets = ["swsh12pt5", "swsh12pt5gg"]
+    all_cards = []
+    for set_id in sets:
+        all_cards.extend(fetch_metadata(set_id))
+    
+    print(f"Downloading {len(all_cards)} images...")
 
-        if os.path.exists(file_path):
-            # Load from disk
-            image = Image.open(file_path)
-        else:
-            # Download and save to disk
-            success = False
-            for attempt in range(1, max_retries + 1):
-                try:     
-                    response = requests.get(url)
-                    if response.status_code != 200:
-                        print(f"[{attempt}/{max_retries}] Failed to load metadata for card {card_id}")
-                        time.sleep(delay)
-                        continue
-
-                    sprite_url = data['data']['images']['large']
-
-                    img_response = requests.get(sprite_url)
-                    if img_response.status_code != 200:
-                        print(f"[{attempt}/{max_retries}] Failed to download image for card {card_id}")
-                        time.sleep(delay)
-                        continue
-
-                    image = Image.open(BytesIO(img_response.content))
-                    image.save(file_path, "PNG") # Store locally
-                    print(f"Saved card {card_id} to disk (attempt {attempt})")
-                    success = True
-                    break # Exit rety loop if successful
-
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        for file_path in executor.map(download_image, all_cards):
+            if file_path:
+                try:
+                    image = Image.open(file_path)
+                    image.thumbnail((218, 300))
+                    photo = ImageTk.PhotoImage(image)
+                    card_cache[file_path] = photo
                 except Exception as e:
-                    print(f"[{attempt}/{max_retries}] Error loading card {card_id}: {e}")
-                    time.sleep(delay)
-            
-            if not success:
-                print(f"Skipped card {card_id} after {max_retries} failed attempts")
-                continue
-        
-        # Cache thumbnail in memory
-        image = image.copy()
-        image.thumbnail((218, 300))
-        photo = ImageTk.PhotoImage(image)
-        card_cache[card_id] = photo
-
-
-    # Preload all cards in SET1_EXT_CARDS (swsh12pt5gg)
-    for card_id in range(1, SET1_EXT_CARDS + 1):
-        # cards 1-9 need a 0 appended before their card_id
-        if card_id // 10 == 0:
-            url = f"https://api.pokemontcg.io/v2/cards/swsh12pt5gg-GG0{card_id}" 
-        else:
-            url = f"https://api.pokemontcg.io/v2/cards/swsh12pt5gg-GG{card_id}" 
-        response = requests.get(url)
-        data = response.json()
-        
-        file_path = os.path.join(CACHE_DIR, f"{data['data']['id']}.png")
-
-        if os.path.exists(file_path):
-            # Load from disk
-            image = Image.open(file_path)
-        else:
-            # Download and save to disk
-            success = False
-            for attempt in range(1, max_retries + 1):
-                try:     
-                    response = requests.get(url)
-                    if response.status_code != 200:
-                        print(f"[{attempt}/{max_retries}] Failed to load metadata for card {card_id}")
-                        time.sleep(delay)
-                        continue
-
-                    sprite_url = data['data']['images']['large']
-
-                    img_response = requests.get(sprite_url)
-                    if img_response.status_code != 200:
-                        print(f"[{attempt}/{max_retries}] Failed to download image for card {card_id}")
-                        time.sleep(delay)
-                        continue
-
-                    image = Image.open(BytesIO(img_response.content))
-                    image.save(file_path, "PNG") # Store locally
-                    print(f"Saved card {card_id} to disk (attempt {attempt})")
-                    success = True
-                    break # Exit rety loop if successful
-
-                except Exception as e:
-                    print(f"[{attempt}/{max_retries}] Error loading card {card_id}: {e}")
-                    time.sleep(delay)
-            
-            if not success:
-                print(f"Skipped card {card_id} after {max_retries} failed attempts")
-                continue
-        
-        # Cache thumbnail in memory
-        image = image.copy()
-        image.thumbnail((218, 300))
-        photo = ImageTk.PhotoImage(image)
-        card_cache[card_id] = photo
-
-
+                    print(f"Error caching {file_path}: {e}")
+    
     print("All cards preloaded.")
 
 class CardPack:
