@@ -17,6 +17,14 @@ SET_LIST = ["swsh12pt5", "swsh12pt5gg"]
 CACHE_DIR = "card_images" #folder where card images are stored
 POKEMON_TCG_API_KEY = os.getenv('POKEMON_TCG_API')
 PACK_IMG_PATH = "card_images/swsh12pt5pack.png"
+RARITY_TABLE = { # Only for galarian gallery
+    "Trainer Gallery Rare Holo": 0.5,
+    "Rare Holo VSTAR": 0.25,
+    "Rare Holo V": 0.1,
+    "Rare Holo VMAX": 0.1,
+    "Rare Ultra": 0.03,
+    "Rare Secret": 0.02
+}
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
@@ -93,7 +101,8 @@ def preload_card_data(set_id):
         all_cards[card_id] = {
             "id": card_id,
             "name": card["name"],
-            "rarity": rarity
+            "rarity": rarity,
+            "image": f"{CACHE_DIR}/{card_id}.png"
         }
 
         rarity_pools.setdefault(rarity, []).append(card_id)
@@ -110,7 +119,6 @@ def load_cache(filename="cards_cache.json"):
             data = json.load(f)
         return data["all_cards"], data["rarity_pools"]
     return None, None
-
 
 
 class CardPack:
@@ -150,16 +158,14 @@ class CardPack:
     # will do this by calculating the rarities of each card in the pack
     # sort the list by rarity so that the rarest cards are at the end of the pack
     def generate_cards(self):
-        card_list = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
-        self.current_cards = card_list
-
-
+        return None
 
 
     # TODO: Hide Open Pack button, make it so that when the card image is clicked it goes to the next card.
     # or come up with a different method
     def open_pack(self):
         """Select cards instantly from cache"""
+        # Remove this once generate_cards is finished
         chosen_card = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
 
         for i, card_id in enumerate(chosen_card):
@@ -175,7 +181,7 @@ root = tk.Tk()
 all_cards, rarity_pools = preload_card_data("swsh12pt5gg")
 save_cache(all_cards, rarity_pools)
 
- #all_cards, rarity_pools = load_cache()
+# all_cards, rarity_pools = load_cache()
 # if not all_cards:
 #     for set in SET_LIST:
 #         all_cards, rarity_pools = preload_card_data(set)
