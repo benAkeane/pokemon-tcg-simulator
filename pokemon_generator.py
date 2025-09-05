@@ -101,15 +101,32 @@ def preload_card_data(set_id):
     
     return all_cards, rarity_pools
 
-def save_cache(all_cards, rarity_pools, filename="cards_cache.json"):
-    with open(filename, "w") as f:
-        json.dump({"all_cards": all_cards, "rarity_pools": rarity_pools}, f)
+def save_cache(set_id, all_cards, rarity_pools, filename="cards_cache.json"):
+    cache = {}
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            cache = json.load(f)
 
-def load_cache(filename="cards_cache.json"):
+    cache.setdefault("all_cards", {}).update(all_cards)
+
+    cache.setdefault("sets", {})[set_id] = {
+        "rarity_pools": rarity_pools
+    }
+
+    with open(filename, "w") as f:
+        json.dump(cache, f, indent= 2)
+
+
+def load_cache(set_id=None, filename="cards_cache.json"):
     if os.path.exists(filename):
         with open(filename, "r") as f:
             data = json.load(f)
-        return data["all_cards"], data["rarity_pools"]
+
+        if set_id:
+            all_cards = data.get(set_id, {}).get("all_cards")
+            rarity_pools = data.get(set_id, {}. get("rarity_pools"))
+            return all_cards, rarity_pools
+        return data # return everything if no set_id is specified
     return None, None
 
 
@@ -170,8 +187,9 @@ class CardPack:
 
 # Start game        
 root = tk.Tk()
-all_cards, rarity_pools = preload_card_data("swsh12pt5gg")
-save_cache(all_cards, rarity_pools)
+for set_id in SET_LIST:
+    all_cards, rarity_pools = preload_card_data(set_id)
+    save_cache(set_id, all_cards, rarity_pools)
 
 # all_cards, rarity_pools = load_cache()
 # if not all_cards:
