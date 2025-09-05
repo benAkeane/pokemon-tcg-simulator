@@ -28,10 +28,10 @@ def preload_cards(max_retries=300, delay=1):
     for card_id in range(1, TOTAL_CARDS + 1):
         url1 = f"https://api.pokemontcg.io/v2/cards/swsh12pt5-{card_id}"
         #utl2 = f"https://api.pokemontcg.io/v2/cards/swsh12pt5gg-GG{card_id}" # cards 1-9 need a 0 appended before their card_id
-
+        # if card_id % 10 == 0 append "0" + card_id
         response = requests.get(url1)
         data = response.json()
-        
+
         file_path = os.path.join(CACHE_DIR, f"{data['data']['id']}.png")
 
         if os.path.exists(file_path):
