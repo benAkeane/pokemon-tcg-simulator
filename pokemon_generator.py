@@ -18,18 +18,24 @@ SET_LIST = ["swsh12pt5", "swsh12pt5gg"]
 CACHE_DIR = "card_images" #folder where card images are stored
 POKEMON_TCG_API_KEY = os.getenv('POKEMON_TCG_API')
 PACK_IMG_PATH = "card_images/swsh12pt5pack.png"
-RARITY_TABLE = {
-    "Common": 0.698,
-    "Uncommon": 0.200,
-    "Rare": 0.060,
-    "Rare Holo": 0.020,
-    "Rare Holo V": 0.005,
-    "Rare Holo VMAX": 0.005,
-    "Rare Holo VSTAR": 0.005,
-    "Radiant Rare": 0.002,
-    "Trainer Gallery Rare Holo": 0.002,
-    "Rare Ultra": 0.002,
-    "Rare Secret": 0.001
+SET_RARITY = {   # Whether a card will be in the base set or galarian gallery extension
+    "swsh12pt5": 0.067,
+    "swsh12pt5gg": 0.933
+}
+BASE_RARITY_TABLE = {  # Rarity values for the base set cards
+    "Common": 0.700,
+    "Uncommon": 0.210,
+    "Rare": 0.065,
+    "Rare Holo": 0.022,
+    "Radiant Rare": 0.003,
+}
+GG_RARITY_TABLE = {  # Rarity values for the gg extension cards
+    "Trainer Gallery Rare Holo": 0.300,
+    "Rare Holo VSTAR": 0.250,
+    "Rare Holo V": 0.200,
+    "Rare Holo VMAX": 0.200,
+    "Rare Ultra": 0.100,
+    "Rare Secret": 0.050
 }
 
 os.makedirs(CACHE_DIR, exist_ok=True)
