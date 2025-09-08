@@ -231,17 +231,59 @@ class CardPack:
     # TODO: Hide Open Pack button, make it so that when the card image is clicked it goes to the next card.
     # or come up with a different method
     def open_pack(self):
-        """Select cards instantly from cache"""
-        # Remove this once generate_cards is finished
-        chosen_card = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
+        """Generate 5 random cards and display their images"""
+        self.current_cards = self.generate_cards()
+        self.cards_revealed = 0
 
-        for i, card_id in enumerate(chosen_card):
-            photo = card_cache.get(card_id)
-            if photo:
-                self.labels[i].configure(image=photo, text="")
-                self.labels[i].image = photo
-            else:
-                self.labels[i].configure(text="???", image="", bg="#f2f2f2")       
+        # Show first card
+        self.reveal_next_card()
+
+        # Change button text 
+        self.open_button.configure(text="Next Card", command=self.reveal_next_card)
+    
+    def reveal_next_card(self):
+        """Reveal the next card in the pack"""
+        if self.cards_revealed < len(self.current_cards):
+            card = self.current_cards[self.cards_revealed]
+            img_path = card["image"]
+
+            try:
+                # Load cached image
+                if img_path in card_cache:
+                    photo = card_cache[img_path]
+                else:
+                    img = Image.open(img_path)
+                    img.thumbnail((218, 300))
+                    photo = ImageTk.PhotoImage(img)
+                    card_cache[img_path] = photo
+            
+                # If first card remove pack image
+                if self.cards_revealed == 0:
+                    self.pack_label.grid_forget()
+                
+                # If card label already exists, clear it
+                if self.card_labels:
+                    self.card_labels[-1].grid_forget()
+                
+                card_label = tk.Label(self.frame, image=photo, bg="#f2f2f2")
+                card_label.grid(row=0, column=0, pady=10)
+                card_label.image = photo
+
+                self.card_labels.append(card_label)
+                self.cards_revealed += 1
+            except Exception as e:
+                print(f"Error displaying card {card['id']}: {e}")
+
+        else:
+            if self.card_labels:
+                self.card_labels[-1].grid_forget()
+                self.card_labels.clear()
+            
+            self.pack_label.grid(row=0, column=0, pady=10)
+
+            # Reset button
+            self.open_button.configure(text="Open Pack", command=self.open_pack)
+
 
 # Start game        
 root = tk.Tk()
