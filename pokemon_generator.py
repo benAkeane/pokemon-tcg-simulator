@@ -23,20 +23,48 @@ SET_RARITY = {    # Set Distribution
     "swsh12pt5gg": 0.067 # Galarian Gallery
 }
 BASE_RARITY_TABLE = {  # Rarity values for the base set cards
-    "Common": 0.700,
-    "Uncommon": 0.210,
-    "Rare": 0.065,
-    "Rare Holo": 0.022,
-    "Radiant Rare": 0.003,
+    "Common": 0.622,
+    "Uncommon": 0.100,
+    "Rare": 0.033,
+    "Rare Holo": 0.092,
+    "Radiant Rare": 0.020,
+    "Rare Holo VSTAR": 0.05,
+    "Rare Holo V": 0.035,
+    "Rare Holo VMAX": 0.025,
+    "Rare Ultra": 0.015,
+    "Rare Secret": 0.008
 }
 GG_RARITY_TABLE = {  # Rarity values for the gg extension cards
-    "Trainer Gallery Rare Holo": 0.300,
-    "Rare Holo VSTAR": 0.250,
-    "Rare Holo V": 0.200,
-    "Rare Holo VMAX": 0.200,
-    "Rare Ultra": 0.100,
-    "Rare Secret": 0.050
+    "Trainer Gallery Rare Holo": 0.405,
+    "Rare Holo V": 0.074,
+    "Rare Holo VMAX": 0.305,
+    "Rare Ultra": 0.155,
+    "Rare Holo VSTAR": 0.036,
+    "Rare Secret": 0.025
 }
+RARITY_ORDER = {
+    "Common": 1,
+    "Uncommon": 2,
+    "Rare": 3,
+    "Rare Holo": 4,
+    "Radiant Rare": 5,
+    "Trainer Gallery Rare Holo": 6,
+    "Rare Holo V": 7,
+    "Rare Holo VMAX": 8,
+    "Rare Holo VSTAR": 9,
+    "Rare Ultra": 10,
+    "Rare Secret": 11
+}
+ENERGY_CARDS = [
+    "swsh12pt5-152",
+    "swsh12pt5-153",
+    "swsh12pt5-154",
+    "swsh12pt5-155",
+    "swsh12pt5-156",
+    "swsh12pt5-157",
+    "swsh12pt5-158",
+    "swsh12pt5-159"
+]
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
@@ -200,6 +228,7 @@ class CardPack:
         for _ in range(CARDS_IN_PACK):
             # Pick which set
             chosen_set = random.choices(sets, weights=set_weights, k=1)[0]
+            print(chosen_set)
 
             # Pick rarity depending on set
             if chosen_set == "swsh12pt5":
@@ -218,18 +247,22 @@ class CardPack:
                 continue # Skip if no cards exist in this rarity
 
             chosen_card_id = random.choice(card_pool)
+            # Removes energy cards by rerolling card id until non energy card is chosen
+            if chosen_rarity == "Rare Ultra" and chosen_card_id in ENERGY_CARDS:
+                while chosen_card_id in ENERGY_CARDS:
+                    chosen_card_id = random.choice(card_pool)
 
             # Get full card info
             card_info = cache_data["all_cards"][chosen_card_id]
             generated_cards.append(card_info)
         # Store in instance state for later display
         self.current_cards = generated_cards
-        print(generated_cards)
+        generated_cards.sort(key=lambda c: RARITY_ORDER.get(c["rarity"], 0))
         return generated_cards
 
 
-    # TODO: Hide Open Pack button, make it so that when the card image is clicked it goes to the next card.
-    # or come up with a different method
+    # TODO: Make button stay in the same spot after pack is opened
+    # TODO: OR make it so that when the pack/card is clicked it proceeds
     def open_pack(self):
         """Generate 5 random cards and display their images"""
         self.current_cards = self.generate_cards()
@@ -298,5 +331,4 @@ if not images_preloaded:
     images_preloaded = True
 
 app = CardPack(root)
-app.generate_cards()
 root.mainloop()
