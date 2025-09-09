@@ -6,6 +6,7 @@ import requests
 import concurrent.futures
 import random
 import json
+from collections import Counter
 from io import BytesIO
 from dotenv import load_dotenv
 
@@ -14,15 +15,62 @@ load_dotenv() # take environment variables from .env
 TOTAL_CARDS = 230
 CARDS_IN_PACK = 5
 SET_LIST = ["swsh12pt5", "swsh12pt5gg"]
-CACHE_DIR = "card_images" #folder where card images are stored
+CACHE_DIR = "card_images" # folder where card images are stored
 POKEMON_TCG_API_KEY = os.getenv('POKEMON_TCG_API')
 PACK_IMG_PATH = "card_images/swsh12pt5pack.png"
+SET_RARITY = {    # Set Distribution
+    "swsh12pt5": 0.933,  # Base set
+    "swsh12pt5gg": 0.067 # Galarian Gallery
+}
+BASE_RARITY_TABLE = {  # Rarity values for the base set cards
+    "Common": 0.622,
+    "Uncommon": 0.100,
+    "Rare": 0.033,
+    "Rare Holo": 0.092,
+    "Radiant Rare": 0.020,
+    "Rare Holo VSTAR": 0.05,
+    "Rare Holo V": 0.035,
+    "Rare Holo VMAX": 0.025,
+    "Rare Ultra": 0.015,
+    "Rare Secret": 0.008
+}
+GG_RARITY_TABLE = {  # Rarity values for the gg extension cards
+    "Trainer Gallery Rare Holo": 0.405,
+    "Rare Holo V": 0.074,
+    "Rare Holo VMAX": 0.305,
+    "Rare Ultra": 0.155,
+    "Rare Holo VSTAR": 0.036,
+    "Rare Secret": 0.025
+}
+RARITY_ORDER = {
+    "Common": 1,
+    "Uncommon": 2,
+    "Rare": 3,
+    "Rare Holo": 4,
+    "Radiant Rare": 5,
+    "Trainer Gallery Rare Holo": 6,
+    "Rare Holo V": 7,
+    "Rare Holo VMAX": 8,
+    "Rare Holo VSTAR": 9,
+    "Rare Ultra": 10,
+    "Rare Secret": 11
+}
+ENERGY_CARDS = [
+    "swsh12pt5-152",
+    "swsh12pt5-153",
+    "swsh12pt5-154",
+    "swsh12pt5-155",
+    "swsh12pt5-156",
+    "swsh12pt5-157",
+    "swsh12pt5-158",
+    "swsh12pt5-159"
+]
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 card_cache = {} # card_id -> PhotoImage
 images_preloaded = True
-
+card_data_preloaded = True
 
 def fetch_metadata(set_id):
     """Fetch all card metadata for a set"""
@@ -77,8 +125,6 @@ def preload_images():
     print("All cards preloaded.")
 
 
-# Currently only saves one set of cards (ex. Only swsh12pt5 NOT both)
-# TODO: make it so that both sets can be stored in the same cache
 def preload_card_data(set_id):
     print("Loading cards...")
     url = f"https://api.pokemontcg.io/v2/cards?q=set.id:{set_id}&pageSize=250"
@@ -171,36 +217,118 @@ class CardPack:
     # will do this by calculating the rarities of each card in the pack
     # sort the list by rarity so that the rarest cards are at the end of the pack
     def generate_cards(self):
-        return None
+        """Generate a list of 5 cards, choosing set and rarity from tables, the pulling from cached pools"""
+        with open("cards_cache.json", "r") as f:
+            cache_data = json.load(f)
 
+        generated_cards = []
+        sets = list(SET_RARITY.keys())
+        set_weights = list(SET_RARITY.values())
 
-    # TODO: Hide Open Pack button, make it so that when the card image is clicked it goes to the next card.
-    # or come up with a different method
-    def open_pack(self):
-        """Select cards instantly from cache"""
-        # Remove this once generate_cards is finished
-        chosen_card = random.sample(range(1, TOTAL_CARDS + 1), CARDS_IN_PACK)
+        for _ in range(CARDS_IN_PACK):
+            # Pick which set
+            chosen_set = random.choices(sets, weights=set_weights, k=1)[0]
+            print(chosen_set)
 
-        for i, card_id in enumerate(chosen_card):
-            photo = card_cache.get(card_id)
-            if photo:
-                self.labels[i].configure(image=photo, text="")
-                self.labels[i].image = photo
+            # Pick rarity depending on set
+            if chosen_set == "swsh12pt5":
+                rarities = list(BASE_RARITY_TABLE.keys())
+                weights = list(BASE_RARITY_TABLE.values())
             else:
-                self.labels[i].configure(text="???", image="", bg="#f2f2f2")       
+                rarities = list(GG_RARITY_TABLE.keys())
+                weights = list(GG_RARITY_TABLE.values())
+            
+            chosen_rarity = random.choices(rarities, weights=weights, k=1)[0]
+
+            # Pick card id from cards_cache rarity pools
+            rarity_pools = cache_data["sets"][chosen_set]["rarity_pools"]
+            card_pool = rarity_pools.get(chosen_rarity, [])
+            if not card_pool:
+                continue # Skip if no cards exist in this rarity
+
+            chosen_card_id = random.choice(card_pool)
+            # Removes energy cards by rerolling card id until non energy card is chosen
+            if chosen_rarity == "Rare Ultra" and chosen_card_id in ENERGY_CARDS:
+                while chosen_card_id in ENERGY_CARDS:
+                    chosen_card_id = random.choice(card_pool)
+
+            # Get full card info
+            card_info = cache_data["all_cards"][chosen_card_id]
+            generated_cards.append(card_info)
+        # Store in instance state for later display
+        self.current_cards = generated_cards
+        generated_cards.sort(key=lambda c: RARITY_ORDER.get(c["rarity"], 0))
+        return generated_cards
+
+
+    # TODO: Make button stay in the same spot after pack is opened
+    # TODO: OR make it so that when the pack/card is clicked it proceeds
+    def open_pack(self):
+        """Generate 5 random cards and display their images"""
+        self.current_cards = self.generate_cards()
+        self.cards_revealed = 0
+
+        # Show first card
+        self.reveal_next_card()
+
+        # Change button text 
+        self.open_button.configure(text="Next Card", command=self.reveal_next_card)
+    
+    def reveal_next_card(self):
+        """Reveal the next card in the pack"""
+        if self.cards_revealed < len(self.current_cards):
+            card = self.current_cards[self.cards_revealed]
+            img_path = card["image"]
+
+            try:
+                # Load cached image
+                if img_path in card_cache:
+                    photo = card_cache[img_path]
+                else:
+                    img = Image.open(img_path)
+                    img.thumbnail((218, 300))
+                    photo = ImageTk.PhotoImage(img)
+                    card_cache[img_path] = photo
+            
+                # If first card remove pack image
+                if self.cards_revealed == 0:
+                    self.pack_label.grid_forget()
+                
+                # If card label already exists, clear it
+                if self.card_labels:
+                    self.card_labels[-1].grid_forget()
+                
+                card_label = tk.Label(self.frame, image=photo, bg="#f2f2f2")
+                card_label.grid(row=0, column=0, pady=10)
+                card_label.image = photo
+
+                self.card_labels.append(card_label)
+                self.cards_revealed += 1
+            except Exception as e:
+                print(f"Error displaying card {card['id']}: {e}")
+
+        else:
+            if self.card_labels:
+                self.card_labels[-1].grid_forget()
+                self.card_labels.clear()
+            
+            self.pack_label.grid(row=0, column=0, pady=10)
+
+            # Reset button
+            self.open_button.configure(text="Open Pack", command=self.open_pack)
+
 
 # Start game        
 root = tk.Tk()
-for set_id in SET_LIST:
-    all_cards, rarity_pools = preload_card_data(set_id)
-    save_cache(set_id, all_cards, rarity_pools)
+if not card_data_preloaded:
+    for set_id in SET_LIST:
+        all_cards, rarity_pools = preload_card_data(set_id)
+        save_cache(set_id, all_cards, rarity_pools)
+        card_data_preloaded = True
 
-# all_cards, rarity_pools = load_cache()
-# if not all_cards:
-#     for set in SET_LIST:
-#         all_cards, rarity_pools = preload_card_data(set)
-#         save_cache(all_cards, rarity_pools)
 if not images_preloaded:
     preload_images() # preload at startup
+    images_preloaded = True
+
 app = CardPack(root)
 root.mainloop()
