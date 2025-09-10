@@ -6,7 +6,7 @@ class RarityManager:
         self.rarity_order = rarity_order
     
     def get_table(self, set_id):
-        return self.base_table if set_id == "swshpt5" else self.gg_table
+        return self.base_table if set_id == "swsh12pt5" else self.gg_table
     
     def sort_by_rarity(self, cards):
         return sorted(cards, key=lambda c: self.rarity_order.get(c["rarity"], 0))

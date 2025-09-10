@@ -12,8 +12,11 @@ if __name__ == "__main__":
     cache = CardCache()
 
     for set_id in SET_LIST:
-        all_cards, rarity_pools = preload_card_data(set_id)
-        cache.add_set(set_id, all_cards, rarity_pools)
+        if cache.has_set(set_id):
+            print(f"Set {set_id} already cached.")
+        else:
+            all_cards, rarity_pools = preload_card_data(set_id)
+            cache.add_set(set_id, all_cards, rarity_pools)
     
     rarity_manager = RarityManager(SET_RARITY, BASE_RARITY_TABLE, GG_RARITY_TABLE, RARITY_ORDER)
 

@@ -21,6 +21,9 @@ class CardCache:
         self.data["sets"][set_id] = {"rarity_pools": rarity_pools}
         self.save()
 
+    def has_set(self, set_id):
+        return set_id in self.data["sets"]
+
     def get_rarity_pool(self, set_id, rarity):
         return self.data["sets"][set_id]["rarity_pools"].get(rarity, [])
     
